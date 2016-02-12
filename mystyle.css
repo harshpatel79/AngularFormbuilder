@@ -1,0 +1,25 @@
+body{
+	overflow: hidden;
+}
+.done {
+	color: #777777;
+	text-decoration: line-through;
+}
+.DoneToDo,.PendingToDo,.AddToDo {
+    left: 22px;
+}
+.glyphicon{
+	cursor: pointer;
+}
+.myclass {
+   left: 5%;
+    height: 30px;
+    /* padding-top: 12px; */
+    width: 84px;
+    background: #0064FF;
+    padding: 5px;
+    text-align: center;
+    color: white;
+    margin: 15px;
+    cursor: pointer;
+}

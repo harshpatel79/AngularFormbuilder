@@ -10,7 +10,7 @@ myapp.controller('myformbuilder',['$scope','$rootScope','mySharedService',functi
         $scope.$apply(function(){
             $scope.message = 'Directive: ' + mySharedService.message;
             $scope.form.push($scope.message);
-            $scope.appending(mySharedService.message);
+            //$scope.appending(mySharedService.message);
         },true);
         
     });

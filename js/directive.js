@@ -1,57 +1,61 @@
-myapp.directive('formcomponents',['mySharedService',function (mySharedService) {
+myapp.directive('formcomponents',[function () {
     return {
       template:'<div class="myclass draggable col-lg-1 col-offset-6" > {{data}}</div>',
       restrict: 'E',
       transclude: true,
       replace:true,
       scope: {
-              component: "="
+              component: "=",
+              
           },
       link:function(scope, element, attr){
           scope.input=[];
-          scope.data = attr.component;
+          scope.data = scope.component;
           var sentdata= scope.data;
-          scope.myhelper = function(){
-            return '<div id="draggableHelper">I am a helper - drag me!</div>';
-            
-          }
-          // element.on('click',function(){
-          //   //console.log("sentdata :L ", scope.addField);
-          //   //scope.addField(sentdata);
-          //   mySharedService.prepForBroadcast(sentdata);
-          // });
+          scope.redropedFunction = function(event, ui){
+            $(ui.draggable).hide();
+          };
           element.draggable({
             revert:'invalid',
             containment: '.row',
             cursor: "move",
+             zIndex: 10000,
             cursorAt: { top: 15, left: 25 },
             helper: "clone",
-            start: function() {
-             
-            },
-            drag: function() {
-             
-            },
-            stop: function() {
-              
-            }
           }); 
+          $('.redroppable').droppable({
+            accept: ".redraggable",
+            drop:scope.redropedFunction
+          });
       }
     };
   }]);
-myapp.directive('formbuilder',['mySharedService',function (mySharedService) {
+myapp.directive('formbuilder',[function () {
     return {
       template:'<div class="mydroppable " id="droppable" ></div>',
       restrict: 'E',
       transclude: true,
       replace:true,
       scope: {
-              accepts: "="
+              accepts: "=",
+              addComponent: "&"
           },
       link:function(scope, element, attr){
+          var reference = scope.addComponent();
           scope.dropedFunction = function(event, ui){
-            $(this).append($(ui.draggable).clone());
-            mySharedService.prepForBroadcast($(ui.draggable).attr('component'));
+              $(ui.draggable).addClass('redraggable');
+              $(this).append($(ui.draggable).clone().draggable());
+              $('.mydroppable .draggable').each(function(){
+                $(this).removeClass('draggable');
+              });
+              reference($(ui.draggable).attr('component'));
+              $(".redraggable").draggable({
+                  revert:'invalid',
+                  containment: '.row',
+                  cursor: "move",
+                   zIndex: 10000,
+                  cursorAt: { top: 15, left: 25 },
+              });
           }
           element.droppable({
             accept: ".draggable",

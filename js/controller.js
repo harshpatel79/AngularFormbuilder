@@ -1,4 +1,4 @@
-myapp.controller('myformbuilder',['$scope','$rootScope','mySharedService',function($scope,$rootScope,mySharedService){
+myapp.controller('myformbuilder',['$scope',function($scope){
 	$scope.form=[];
     $scope.textbox="textbox";
     $scope.textArea="textArea";

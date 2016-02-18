@@ -14,7 +14,7 @@
                     <h3 class="panel-title">Form Builder</h3>
                 </div>
                 <div id="formbuilt"></div>
-                <formbuilder  add-Component="addComponent"></formbuilder>
+                <formbuilder  unique-Id ="uniqueId" form="form" add-Component="addComponent"></formbuilder>
                 <div class="panel-footer">
                     <pre>{{form}}</pre>
                 </div>
@@ -26,10 +26,10 @@
                     <h3 class="panel-title">Form components</h3>
                 </div>
                 <div class="redroppable">
-                 <formcomponents component="textbox"></formcomponents>
-                 <formcomponents component="textArea"></formcomponents>
-                 <formcomponents component="checkbox"></formcomponents>
-                 <formcomponents component="radiobutton"></formcomponents>
+                 <formcomponents form="form" delete-Component="deleteComponent" component="textbox"></formcomponents>
+                 <formcomponents form="form" delete-Component="deleteComponent" component="textArea"></formcomponents>
+                 <formcomponents form="form" delete-Component="deleteComponent" component="checkbox"></formcomponents>
+                 <formcomponents form="form" delete-Component="deleteComponent" component="radiobutton"></formcomponents>
                  </div>
             </div>
         </div>

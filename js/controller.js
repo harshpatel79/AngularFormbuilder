@@ -4,10 +4,24 @@ myapp.controller('myformbuilder',['$scope',function($scope){
     $scope.textArea="textArea";
     $scope.checkbox="checkbox";
     $scope.radiobutton="radiobutton";
-    $scope.addComponent = function(component){
+    $scope.uniqueId = 0 ;
+    $scope.addComponent = function(droppedcomponent){
         $scope.$apply(function(){
-            $scope.message = 'Directive: ' + component;
-            $scope.form.push($scope.message);
+            var component = {};
+            component.id = $scope.uniqueId;
+            component.message = 'Directive: ' + droppedcomponent;
+            $scope.form.push(component);
+            $scope.uniqueId++;
         },true);
     };
+    $scope.deleteComponent = function(deleteId){
+         $scope.$apply(function(){
+            for(var i =0 ;i<$scope.form.length;i++){
+                if($scope.form[i].id == deleteId){
+                    $scope.form.splice(i, 1);
+                    break
+                }
+            }
+        },true);
+    }
 }]);

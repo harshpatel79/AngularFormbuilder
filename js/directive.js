@@ -6,14 +6,18 @@ myapp.directive('formcomponents',[function () {
       replace:true,
       scope: {
               component: "=",
-              
+              deleteComponent: "&",
+              form: "=",
           },
       link:function(scope, element, attr){
+        var reference = scope.deleteComponent();
           scope.input=[];
           scope.data = scope.component;
           var sentdata= scope.data;
           scope.redropedFunction = function(event, ui){
             $(ui.draggable).hide();
+            var redraggableId = $(ui.draggable).attr('id').match(/\d+$/)[0];
+            reference(redraggableId);
           };
           element.draggable({
             revert:'invalid',
@@ -38,17 +42,20 @@ myapp.directive('formbuilder',[function () {
       replace:true,
       scope: {
               accepts: "=",
-              addComponent: "&"
+              addComponent: "&",
+              form: "=",
+              uniqueId: "="
           },
       link:function(scope, element, attr){
           var reference = scope.addComponent();
           scope.dropedFunction = function(event, ui){
-              $(ui.draggable).addClass('redraggable');
               $(this).append($(ui.draggable).clone().draggable());
+              $(this).find('.draggable').addClass('redraggable').attr('id','dropped'+scope.uniqueId);
               $('.mydroppable .draggable').each(function(){
                 $(this).removeClass('draggable');
               });
               reference($(ui.draggable).attr('component'));
+              //console.log(scope.form);
               $(".redraggable").draggable({
                   revert:'invalid',
                   containment: '.row',

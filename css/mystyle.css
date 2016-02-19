@@ -21,6 +21,7 @@ body{
     text-align: center;
     color: white;
     margin: 15px;
+    float: left;
     
 }
 .mydroppable {
@@ -32,3 +33,36 @@ body{
     border: 2px dotted black;
     margin: 11px;
 }
+.redroppable {
+    overflow: auto;
+}
+.panel {
+    width: 84%;
+}
+.customform {
+    position: relative;
+    margin: 12px;
+    padding: 24px;
+    border: 2px dotted black;
+    background: #0F886D;
+    color: white;
+}
+.text {
+    position: absolute;
+    top: 2px;
+}
+.close {
+    position: relative;
+    top: -16px;
+    left: 16px;
+    color: blanchedalmond;
+}
+.ui-state-highlight { 
+    height: 1.5em; 
+    line-height: 1.2em; 
+    background: black;
+}
+/* .ui-sortable-placeholder {
+  border: 1px dotted black; 
+  visibility: visible !important;
+   }*/

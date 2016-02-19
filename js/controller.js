@@ -22,6 +22,19 @@ myapp.controller('myformbuilder',['$scope',function($scope){
                     break
                 }
             }
-        },true);
-    }
+        },true);         
+    };
+    $scope.sortComponent = function(arrayDiv){
+        
+        console.log(arrayDiv);
+        $scope.$apply(function(){
+            var dummy = [];
+            for(var i =0 ;i<arrayDiv.length;i++){
+               dummy.push($scope.form[arrayDiv[i]]);
+            }
+            console.log(dummy);
+            $scope.form = dummy;
+            console.log($scope.form)
+        },true);         
+    };
 }]);

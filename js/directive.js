@@ -1,6 +1,6 @@
 myapp.directive('formcomponents',[function () {
     return {
-      template:'<div class="myclass draggable col-lg-1 col-offset-6" > {{data}}</div>',
+      template:'<div class="myclass draggable " > {{data}}</div>',
       restrict: 'E',
       transclude: true,
       replace:true,
@@ -34,9 +34,9 @@ myapp.directive('formcomponents',[function () {
       }
     };
   }]);
-myapp.directive('formbuilder',[function () {
+myapp.directive('formbuilder',['$compile',function ($compile) {
     return {
-      template:'<div class="mydroppable " id="droppable" ></div>',
+      template:'<div class="mydroppable " id="sortable"></div>',
       restrict: 'E',
       transclude: true,
       replace:true,
@@ -44,30 +44,59 @@ myapp.directive('formbuilder',[function () {
               accepts: "=",
               addComponent: "&",
               form: "=",
-              uniqueId: "="
+              uniqueId: "=",
+              deleteComponent: "&",
+              sortComponent:"&"
           },
       link:function(scope, element, attr){
-          var reference = scope.addComponent();
-          scope.dropedFunction = function(event, ui){
-              $(this).append($(ui.draggable).clone().draggable());
-              $(this).find('.draggable').addClass('redraggable').attr('id','dropped'+scope.uniqueId);
-              $('.mydroppable .draggable').each(function(){
-                $(this).removeClass('draggable');
-              });
-              reference($(ui.draggable).attr('component'));
-              //console.log(scope.form);
-              $(".redraggable").draggable({
-                  revert:'invalid',
-                  containment: '.row',
-                  cursor: "move",
-                   zIndex: 10000,
-                  cursorAt: { top: 15, left: 25 },
-              });
-          }
-          element.droppable({
-            accept: ".draggable",
-            drop:scope.dropedFunction
-          });
+            var reference = scope.addComponent();
+            var deleteReference = scope.deleteComponent();
+            var sortComponent =scope.sortComponent();
+            scope.close = function(e){
+              alert(e);
+              deleteReference(e);
+            }
+            scope.dropedFunction = function(event, ui){
+              var arrayDiv = [];
+              var component = $(ui.draggable).attr('component');
+                if(component == "textbox"){
+                 $(this).append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">textbox</span><span class="close" id="close'+scope.uniqueId+'" >X</span><input type="text" name="fname"></div>')(scope));
+                }
+                else if(component == "textArea"){
+                 $(this).append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">textArea</span><span class="close" id="close'+scope.uniqueId+'" >X</span><textarea rows="4" cols="30"></textarea></div>')(scope));
+                }
+                else if(component == "checkbox"){
+                 $(this).append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">checkbox</span><span class="close" id="close'+scope.uniqueId+'" >X</span><input type="checkbox" name="vehicle" value="Bike"></div>')(scope));
+                }
+                else if(component == "radiobutton"){
+                 $(this).append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">radiobutton</span><span class="close" id="close'+scope.uniqueId+'" >X</span><input type="radio" name="gender" value="male" checked> Male<br><input type="radio" name="gender" value="female"> Female<br><input type="radio" name="gender" value="other"> Other<br/></div>')(scope));
+                }
+                scope.$apply();
+                $('#close'+scope.uniqueId).on('click',function(){
+                  deleteReference($(this).attr('id').match(/\d+$/)[0]);
+                  $(this).parent().remove();
+                });
+                reference(component);
+                $("#sortable").sortable({
+                  start: function(e, ui){
+                      ui.placeholder.height(ui.item.height());
+                  },
+                  stop: function( event, ui ) {
+                    $('.customform').each(function(){
+                      arrayDiv.push($(this).attr('id').match(/\d+$/)[0]);
+                    });
+                    sortComponent(arrayDiv)
+                   // console.log(arrayDiv);
+                    arrayDiv = [];
+                  }
+                });
+               
+
+            }
+            element.droppable({
+              accept: ".draggable",
+              drop:scope.dropedFunction
+            });
       }
     };
   }]);

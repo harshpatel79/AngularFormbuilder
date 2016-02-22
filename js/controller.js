@@ -25,16 +25,20 @@ myapp.controller('myformbuilder',['$scope',function($scope){
         },true);         
     };
     $scope.sortComponent = function(arrayDiv){
-        
-        console.log(arrayDiv);
+        var dummy = [];
+        console.log("arrayDiv",arrayDiv);
         $scope.$apply(function(){
-            var dummy = [];
             for(var i =0 ;i<arrayDiv.length;i++){
-               dummy.push($scope.form[arrayDiv[i]]);
+                for(var j = 0; j<$scope.form.length;j++){
+                    if($scope.form[j].id == arrayDiv[i]){
+                        dummy.push($scope.form[j]);
+                    }
+                }
+               
             }
-            console.log(dummy);
+            console.log("dummy",dummy);
             $scope.form = dummy;
-            console.log($scope.form)
+            console.log("form",$scope.form)
         },true);         
     };
 }]);

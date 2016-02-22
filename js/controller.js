@@ -8,6 +8,7 @@ myapp.controller('myformbuilder',['$scope','$timeout',function($scope,$timeout){
     $scope.addComponent = function(droppedcomponent){
         $scope.$apply(function(){
             var component = {};
+            
             component.id = $scope.uniqueId;
             component.message = 'Directive: ' + droppedcomponent;
             $scope.form.push(component);

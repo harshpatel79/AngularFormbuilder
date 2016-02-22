@@ -58,7 +58,6 @@ myapp.directive('formbuilder',['$compile',function ($compile) {
               var arrayDiv = [];
               var component = $(ui.draggable).attr('component');
                 if(component == "textbox"){
-<<<<<<< HEAD
                  element.append($compile('<div class="customform" id="dropped'+scope.uniqueId+'" ><span class="text">textbox</span><span class="close" id="close'+scope.uniqueId+'" ng-click="close('+scope.uniqueId+')">X</span><input type="text" name="fname"></div>')(scope));
                 }
                 else if(component == "textArea"){
@@ -76,24 +75,6 @@ myapp.directive('formbuilder',['$compile',function ($compile) {
                 //   deleteReference(Id);
                 //   angular.element(element[0].querySelector('#dropped'+Id)).remove();
                 // });
-=======
-                 element.append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">textbox</span><span class="close" id="close'+scope.uniqueId+'" >X</span><input type="text" name="fname"></div>')(scope));
-                }
-                else if(component == "textArea"){
-                 element.append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">textArea</span><span class="close" id="close'+scope.uniqueId+'" >X</span><textarea rows="4" cols="30"></textarea></div>')(scope));
-                }
-                else if(component == "checkbox"){
-                 element.append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">checkbox</span><span class="close" id="close'+scope.uniqueId+'" >X</span><input type="checkbox" name="vehicle" value="Bike"></div>')(scope));
-                }
-                else if(component == "radiobutton"){
-                 element.append($compile('<div class="customform" id="dropped'+scope.uniqueId+'"><span class="text">radiobutton</span><span class="close" id="close'+scope.uniqueId+'" >X</span><input type="radio" name="gender" value="male" checked> Male<br><input type="radio" name="gender" value="female"> Female<br><input type="radio" name="gender" value="other"> Other<br/></div>')(scope));
-                }
-                angular.element(element[0].querySelector('#close'+scope.uniqueId)).bind('click',function($event){
-                  var Id = $($event.target).attr('id').match(/\d+$/)[0];
-                  deleteReference(Id);
-                  angular.element(element[0].querySelector('#dropped'+Id)).remove();
-                });
->>>>>>> 80dec4f14aff535a77e0e7ddd10256a1b1588584
                 reference(component);
                 $("#sortable").sortable({
                   start: function(e, ui){

@@ -1,4 +1,4 @@
-myapp.controller('myformbuilder',['$scope',function($scope){
+myapp.controller('myformbuilder',['$scope','$timeout',function($scope,$timeout){
 	$scope.form=[];
     $scope.textbox="textbox";
     $scope.textArea="textArea";
@@ -15,18 +15,28 @@ myapp.controller('myformbuilder',['$scope',function($scope){
         },true);
     };
     $scope.deleteComponent = function(deleteId){
-         $scope.$apply(function(){
-            for(var i =0 ;i<$scope.form.length;i++){
+        $timeout(function() {
+          for(var i =0 ;i<$scope.form.length;i++){
                 if($scope.form[i].id == deleteId){
                     $scope.form.splice(i, 1);
                     break
                 }
             }
-        },true);         
+            $scope.$apply();     
+        }, 0);
+       //  // $scope.$apply(function(){
+       //      for(var i =0 ;i<$scope.form.length;i++){
+       //          if($scope.form[i].id == deleteId){
+       //              $scope.form.splice(i, 1);
+       //              break
+       //          }
+       //      }
+       // // },true);
+       // $scope.$apply();         
+
     };
     $scope.sortComponent = function(arrayDiv){
         var dummy = [];
-        console.log("arrayDiv",arrayDiv);
         $scope.$apply(function(){
             for(var i =0 ;i<arrayDiv.length;i++){
                 for(var j = 0; j<$scope.form.length;j++){
@@ -34,11 +44,8 @@ myapp.controller('myformbuilder',['$scope',function($scope){
                         dummy.push($scope.form[j]);
                     }
                 }
-               
             }
-            console.log("dummy",dummy);
             $scope.form = dummy;
-            console.log("form",$scope.form)
         },true);         
     };
 }]);

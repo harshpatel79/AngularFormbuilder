@@ -1,22 +1,27 @@
-myapp.controller('myformbuilder',['$scope','$compile','$timeout',function($scope,$compile,$timeout){
-	  $scope.form=[];
-    $scope.textbox="textbox";
-    $scope.textArea="textArea";
-    $scope.checkbox="checkbox";
-    $scope.radiobutton="radiobutton";
-    $scope.uniqueId = 0 ;
+(function(){
+  'use strict';
+  angular
+    .module('myapp')
+    .controller('myformbuilder', myformbuilder);
+  myformbuilder.$inject = ['$scope','$compile','$timeout'];  
+  function myformbuilder($scope,$compile,$timeout){
+    var vm = this;
+    vm.form=[];
+    vm.textbox="textbox";
+    vm.textArea="textArea";
+    vm.checkbox="checkbox";
+    vm.radiobutton="radiobutton";
+    vm.uniqueId = 0 ;
+    vm.dropedFunction = dropedFunction ;
+    vm.addComponent = addComponent ;
+    vm.deleteComponent = deleteComponent;
+    vm.sortComponent = sortComponent;
+    var arrayDiv = [];
     var El = angular.element(document.querySelector('.mydroppable'));
-    $scope.dropedFunction = function(event, ui){
-      var arrayDiv = [];
-      var component = $(ui.draggable).attr('component');
-      El.append($compile('<customform class="mycustomform" id="customform'+$scope.uniqueId+'" sort-Component="sortComponent" delete-Component="deleteComponent" component="'+component+'" unique-Id ="'+$scope.uniqueId+'"></customform>')($scope));
-      $scope.addComponent(component);
-    }
     El.droppable({
       accept: ".draggable",
-      drop:$scope.dropedFunction
+      drop: vm.dropedFunction
     });
-    var arrayDiv = [];
     $("#sortable").sortable({
       start: function(e, ui){
           ui.placeholder.height(ui.item.height());
@@ -25,42 +30,48 @@ myapp.controller('myformbuilder',['$scope','$compile','$timeout',function($scope
         $('.customform').each(function(){
           arrayDiv.push($(this).attr('id').match(/\d+$/)[0]);
         });
-        $scope.sortComponent(arrayDiv)
+        vm.sortComponent(arrayDiv)
         arrayDiv = [];
       }
     });
-    $scope.addComponent = function(droppedcomponent){
+    function dropedFunction(event, ui){
+      var arrayDiv = [];
+      var component = $(ui.draggable).attr('data-formcomponent');
+      El.append($compile('<customform class="mycustomform" id="customform'+vm.uniqueId+'" sort-Component="vm.sortComponent" delete-Component="vm.deleteComponent" component="'+component+'" unique-Id ="'+vm.uniqueId+'"></customform>')($scope));
+      vm.addComponent(component);
+    };
+    function addComponent(droppedcomponent){
         $scope.$apply(function(){
             var component = {};
-            
-            component.id = $scope.uniqueId;
+            component.id = vm.uniqueId;
             component.message = 'Directive: ' + droppedcomponent;
-            $scope.form.push(component);
-            $scope.uniqueId++;
+            vm.form.push(component);
+            vm.uniqueId++;
         },true);
     };
-    $scope.deleteComponent = function(deleteId){
+    function deleteComponent(deleteId){
         $timeout(function() {
-          for(var i =0 ;i<$scope.form.length;i++){
-                if($scope.form[i].id == deleteId){
-                    $scope.form.splice(i, 1);
+          for(var i =0 ;i<vm.form.length;i++){
+                if(vm.form[i].id == deleteId){
+                    vm.form.splice(i, 1);
                     break
                 }
             }
             $scope.$apply();     
         }, 0);
     };
-    $scope.sortComponent = function(arrayDiv){
+    function sortComponent(arrayDiv){
         var dummy = [];
         $scope.$apply(function(){
             for(var i =0 ;i<arrayDiv.length;i++){
-                for(var j = 0; j<$scope.form.length;j++){
-                    if($scope.form[j].id == arrayDiv[i]){
-                        dummy.push($scope.form[j]);
+                for(var j = 0; j<vm.form.length;j++){
+                    if(vm.form[j].id == arrayDiv[i]){
+                        dummy.push(vm.form[j]);
                     }
                 }
             }
-            $scope.form = dummy;
+            vm.form = dummy;
         },true);         
     };
-}]);
+  }
+})();

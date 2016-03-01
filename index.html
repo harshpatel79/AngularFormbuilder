@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
-<body class="container" ng-app="myapp" ng-controller="myformbuilder">
+<body class="container" ng-app="myapp" ng-controller="myformbuilder as vm">
 	<div class="row">
         <h1>angular-form-builder</h1>
         <hr/>
@@ -17,7 +17,7 @@
                     <div class="mydroppable " id="sortable"></div>
                 </div>
                 <div class="panel-footer">
-                    <pre>{{form}}</pre>
+                    <pre>{{vm.form | json}}</pre>
                 </div>
             </div>
         </div>
@@ -27,11 +27,11 @@
                     <h3 class="panel-title">Form components</h3>
                 </div>
                 <div class="redroppable">
-                 <formcomponents form="form"  delete-Component="deleteComponent" component="textbox"></formcomponents>
-                 <formcomponents form="form" delete-Component="deleteComponent" component="textArea"></formcomponents>
-                 <formcomponents form="form" delete-Component="deleteComponent" component="checkbox"></formcomponents>
-                 <formcomponents form="form" delete-Component="deleteComponent" component="radiobutton"></formcomponents>
-                 </div>
+                     <formcomponents form="form"  delete-Component="vm.deleteComponent" component="vm.textbox"></formcomponents>
+                     <formcomponents form="form" delete-Component="vm.deleteComponent" component="vm.textArea"></formcomponents>
+                     <formcomponents form="form" delete-Component="vm.deleteComponent" component="vm.checkbox"></formcomponents>
+                     <formcomponents form="form" delete-Component="vm.deleteComponent" component="vm.radiobutton"></formcomponents>
+                </div>
             </div>
         </div>
     </div>
